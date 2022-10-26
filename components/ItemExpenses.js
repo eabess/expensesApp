@@ -1,18 +1,28 @@
+import { useNavigation } from "@react-navigation/native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { GlobalColors } from "../constants/styles";
+import { getFormattedDate } from "../util/date";
 
 function ItemExpenses({ description, amount, date }) {
+  const navigation = useNavigation();
+
+  function itemPressHandler() {
+    navigation.navigate('ManageExpenses');
+  }
+
   return (
-    <Pressable>
+    <Pressable
+      onPress={itemPressHandler}
+      style={({pressed}) => pressed && styles.pressed}
+    >
       <View style={styles.itemExpenses}>
         <View>
           <Text style={[styles.textBase, styles.textDescription]}>{description}</Text>
-          <Text style={styles.textBase}>{date.toString()}</Text>
-          {/* <Text style={styles.textDateExpenses}>{date}</Text> */}
+          <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
         </View>
         <View style={styles.amoutContainer}>
-          <Text style={styles.textAmount}>${amount}</Text> 
+          <Text style={styles.textAmount}>${amount.toFixed(2)}</Text> 
         </View>
       </View>
     </Pressable>
@@ -22,6 +32,9 @@ function ItemExpenses({ description, amount, date }) {
 export default ItemExpenses;
 
 const styles = StyleSheet.create({
+  pressed: {
+    opacity: 0.75
+  },
   itemExpenses: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -44,9 +57,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   amoutContainer: {
-    width: 80,
-    // paddingHorizontal: 12,
-    // paddingVertical: 4,
+    minWidth: 80,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
