@@ -4,11 +4,13 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GlobalColors } from "../constants/styles";
 import { getFormattedDate } from "../util/date";
 
-function ItemExpenses({ description, amount, date }) {
+function ItemExpenses({ id, description, amount, date }) {
   const navigation = useNavigation();
 
   function itemPressHandler() {
-    navigation.navigate('ManageExpenses');
+    navigation.navigate('ManageExpenses', 
+      {expenseId: id}
+    );
   }
 
   return (
